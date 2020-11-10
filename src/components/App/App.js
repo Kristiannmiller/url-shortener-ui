@@ -18,7 +18,12 @@ export class App extends Component {
   }
   async componentDidMount() {
     const allUrls = await getUrls()
-    this.setState({ urls: allUrls.urls})
+    if(!allUrls) {
+      this.setState({ urls: []})
+    } else {
+      this.setState({ urls: allUrls.urls})
+
+    }
   }
   render() {
     return (
@@ -27,7 +32,6 @@ export class App extends Component {
           <h1>URL Shortener</h1>
           <UrlForm addUrl={this.addUrl}/>
         </header>
-
         <UrlContainer urls={this.state.urls}/>
       </main>
     );
