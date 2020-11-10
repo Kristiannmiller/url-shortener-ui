@@ -88,7 +88,7 @@ describe('App', () => {
       expect(containerWrap).toBeInTheDocument()
     })
     it('should call getUrls after submitting a new url', async () => {
-      getUrls.mockResolvedValue(
+      getUrls.mockResolvedValueOnce(
         { urls: [{id: 1,
         long_url: 'longUrl1',
         short_url: 'shortUrl1',
@@ -97,6 +97,20 @@ describe('App', () => {
         long_url: 'longUrl2',
         short_url: 'shortUrl2',
         title: 'title2'}] }
+      )
+      .mockResolvedValueOnce(
+        { urls: [{id: 1,
+        long_url: 'longUrl1',
+        short_url: 'shortUrl1',
+        title: 'title1'},
+        {id: 2,
+        long_url: 'longUrl2',
+        short_url: 'shortUrl2',
+        title: 'title2'},
+        {id: 3,
+        long_url: 'longUrl3',
+        short_url: 'shortUrl3',
+        title: 'title3'}] }
       )
       render(
         <App />
@@ -114,6 +128,10 @@ describe('App', () => {
       userEvent.click(submitButton)
       expect(postUrl).toHaveBeenCalledWith('test2', 'test1')
       expect(getUrls).toHaveBeenCalled()
+      const urlTitle3 = await waitFor(() => screen.getByText('title3'))
+      const urlShort3 = await waitFor(() => screen.getByText('shortUrl3'))
+      expect(urlTitle3).toBeInTheDocument()
+      expect(urlShort3).toBeInTheDocument()
     })
   })
 })
