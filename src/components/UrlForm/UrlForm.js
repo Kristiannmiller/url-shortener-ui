@@ -11,11 +11,13 @@ class UrlForm extends Component {
   }
 
   handleNameChange = e => {
+    e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
   }
 
   handleSubmit = e => {
     e.preventDefault();
+    this.props.addUrl(this.state.urlToShorten, this.state.title);
     this.clearInputs();
   }
 
