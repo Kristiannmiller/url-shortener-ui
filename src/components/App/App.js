@@ -22,7 +22,6 @@ export class App extends Component {
       this.setState({ urls: []})
     } else {
       this.setState({ urls: allUrls.urls})
-
     }
   }
   render() {
