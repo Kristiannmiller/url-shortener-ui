@@ -87,7 +87,17 @@ describe('App', () => {
       expect(header).toBeInTheDocument()
       expect(containerWrap).toBeInTheDocument()
     })
-    it('should display a new url', async () => {
+    it('should call getUrls after submitting a new url', async () => {
+      getUrls.mockResolvedValue(
+        { urls: [{id: 1,
+        long_url: 'longUrl1',
+        short_url: 'shortUrl1',
+        title: 'title1'},
+        {id: 2,
+        long_url: 'longUrl2',
+        short_url: 'shortUrl2',
+        title: 'title2'}] }
+      )
       render(
         <App />
       )
@@ -103,6 +113,7 @@ describe('App', () => {
       userEvent.type(urlInput, 'test2')
       userEvent.click(submitButton)
       expect(postUrl).toHaveBeenCalledWith('test2', 'test1')
+      expect(getUrls).toHaveBeenCalled()
     })
   })
 })
